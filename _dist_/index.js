@@ -39,17 +39,25 @@ fetchData();*/
 //-------------------------------------------
 //con promesas
 
-const url = "https://platzi-avo.vercel.app/api/avo";
+
+
+const urlBase = "https://platzi-avo.vercel.app";
+const appNode = document.getElementById("app");
 
 window
-    .fetch(url)
+    .fetch(`${urlBase}/api/avo`)
     .then(response => response.json())
     .then((responseJson) => {
         const allItems = []
         responseJson.data.forEach(item => {
             const imagen = document.createElement("img");
+            imagen.src = `${urlBase}${item.image}`;
+
             const title = document.createElement("h2");
+            title.textContent = item.name;
+
             const price = document.createElement("div");
+            price.textContent = item.price;
 
             const container = document.createElement("div")
             container.append(imagen, title, price);
@@ -57,6 +65,6 @@ window
             allItems.push(container)
         });
 
-        document.body.append(...allItems);
+        appNode.append(...allItems);
     })
     .catch(err => console.log(`Ha ocurrido un error de tipo: ${err}`));
